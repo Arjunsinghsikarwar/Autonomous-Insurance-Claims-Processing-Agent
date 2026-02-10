@@ -32,7 +32,7 @@ public class InsuranceFileHandlingService {
     @Value("${insurance.fraud.keywords}")
     private List<String> fraudKeywords;
 
-    // ================= PDF READ =================
+
     public String readPDF(MultipartFile file) throws IOException {
 
         log.info("Reading uploaded PDF: name={}, size={}",
@@ -51,7 +51,7 @@ public class InsuranceFileHandlingService {
         }
     }
 
-    // ================= UTIL =================
+
     private String extractValue(String line) {
         if (!line.contains(":")) return null;
         return line.split(":", 2)[1].trim();
@@ -61,7 +61,7 @@ public class InsuranceFileHandlingService {
         return value == null || value.trim().isEmpty();
     }
 
-    // ================= POLICY =================
+
     public PolicyInformation handlePolicyInformation(String text) {
 
         PolicyInformation policy = new PolicyInformation();
@@ -87,7 +87,7 @@ public class InsuranceFileHandlingService {
         return policy;
     }
 
-    // ================= INCIDENT =================
+
     public IncidentInformation handleIncidentInformation(String text) {
 
         IncidentInformation incident = new IncidentInformation();
@@ -114,7 +114,7 @@ public class InsuranceFileHandlingService {
         return incident;
     }
 
-    // ================= INVOLVED PARTIES =================
+
     public InvolvedParties handleInvolvedParties(String text) {
 
         Complaint complaint = new Complaint();
@@ -147,7 +147,7 @@ public class InsuranceFileHandlingService {
         return new InvolvedParties(complaint, thirdParties);
     }
 
-    // ================= ASSIST =================
+
     public AssistDetails handleAssistDetails(String text) {
 
         AssistDetails assist = new AssistDetails();
@@ -173,7 +173,6 @@ public class InsuranceFileHandlingService {
         return assist;
     }
 
-    // ================= MANDATORY =================
     public MandatoryFiled handleMandatoryFiled(String text) {
 
         MandatoryFiled mandatory = new MandatoryFiled();
@@ -199,7 +198,7 @@ public class InsuranceFileHandlingService {
         return mandatory;
     }
 
-    // ================= FINAL PROCESS =================
+
     public ClaimProcessingResponse processClaim(String text) {
 
         log.info("Starting claim processing");
@@ -242,7 +241,7 @@ public class InsuranceFileHandlingService {
 
         log.info("Missing fields: {}", missing);
 
-        // ---------- ROUTING ----------
+
         if (policy.getPolicyExpireDate() != null &&
                 LocalDate.now().isAfter(policy.getPolicyExpireDate())) {
 
